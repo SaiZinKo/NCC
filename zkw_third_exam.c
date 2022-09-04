@@ -69,7 +69,6 @@ void mergeTwoArrayTest() {
     int secondArray[MAX_SIZE];
     int *firstArrPtr;
     int *secondArrPtr;
-    int *mergedArray;
 
     printf("Enter size of first array : ");
     scanf("%d", &firstArraySize);
@@ -85,10 +84,8 @@ void mergeTwoArrayTest() {
     insertIntoArray(secondArray, secondArraySize);
     secondArrPtr = &secondArray;
 
-    mergedArray = mergeTwoArray(firstArrPtr, firstArraySize, secondArrPtr, secondArraySize);
-
     printf("The value of merged array are : ");
-    printResult(mergedArray, firstArraySize + secondArraySize);
+    printResult(mergeTwoArray(firstArrPtr, firstArraySize, secondArrPtr, secondArraySize), firstArraySize + secondArraySize);
 }
 
 void replaceElementTest() {
