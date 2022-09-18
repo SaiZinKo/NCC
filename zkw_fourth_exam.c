@@ -61,8 +61,7 @@ int main() {
 }
 
 void insertData() {
-    struct User *user;
-    user =(struct User*)malloc(sizeof(struct User));
+    struct User user;
     FILE *fptr;
     fptr = fopen("userData.txt", "a");
 
@@ -72,12 +71,12 @@ void insertData() {
     }
 
     printf("Please enter user data : \n");
-    scanf("%d%s%s%d%d%s", &(user->id), &(user->username), &(user->password), &(user->amount), &(user->age),
-          &(user->location));
+    scanf("%d%s%s%d%d%s", &(user.id), &(user.username), &(user.password), &(user.amount), &(user.age),
+          &(user.location));
 
 
-    fprintf(fptr, "%d%30s%30s\t%d\t%d%30s\n", user->id, user->username, user->password, user->amount, user->age,
-            user->location);
+    fprintf(fptr, "%d%30s%30s\t%d\t%d%30s\n", user.id, user.username, user.password, user.amount, user.age,
+            user.location);
     fclose(fptr);
 }
 
@@ -114,6 +113,7 @@ struct User findData() {
         for (int i = 0; i < userDataSize; i++) {
             struct User user = users[i];
             if (strcmp(user.username, toFind) == 0) {
+                printf("User Data Found at line number %d\n", i + 1);
                 return user;
             }
         }
@@ -133,21 +133,20 @@ void updateData() {
     struct User user = findData();
     showData(user);
 
+    printf("Please choose to update data :\n");
     printf("1. Id\n");
     printf("2. User Name\n");
     printf("3. Password\n");
     printf("4. Amount\n");
     printf("5. Age\n");
     printf("6. Location\n");
-    printf("Please choose to update data : ");
     scanf("%d", &choose);
 
     switch (choose) {
         case 1:
             printf("Please enter new id to update : ");
             scanf("%d", &user.id);
-            fprintf(fptr, "%d%30s%30s\t%d\t%d%30s\n", user.id, user.username, user.password, user.amount, user.age,
-                    user.location);
+            fprintf(fptr, "%d%30s%30s\t%d\t%d%30s\n", user.id, user.username, user.password, user.amount, user.age,user.location);
             fclose(fptr);
             break;
         case 2:
@@ -188,7 +187,7 @@ void updateData() {
 
 
 void showData(struct User user) {
-    printf("Id : %d\nUser Name : %s\nPassword : %s\nAmount : %d\nAge : %d\nLocation : %s\n",
+    printf("Id : %d\nUser Name : %s\nPassword : %s\nAmount : %d\nAge : %d\nLocation = %s\n",
            user.id, user.username, user.password, user.amount, user.age, user.location);
 }
 
