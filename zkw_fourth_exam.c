@@ -41,6 +41,7 @@ int main() {
 
         printf("Choose : ");
         scanf("%d", &choose);
+        printf("\n");
         switch (choose) {
             case 1:
                 insertData();
@@ -71,11 +72,11 @@ void insertData() {
     }
 
     printf("Please enter user data : \n");
-    scanf("%d%s%s%d%d%s", &(user.id), &(user.username), &(user.password), &(user.amount), &(user.age),
-          &(user.location));
+    printf("Id, UserName, Password, Amount, Age, Location\n\n");
+    scanf("%d%s%s%d%d%s", &user.id, &user.username, &user.password, &user.amount, &user.age,&user.location);
 
 
-    fprintf(fptr, "%d%30s%30s\t%d\t%d%30s\n", user.id, user.username, user.password, user.amount, user.age,
+    fprintf(fptr, "%d%30s%30s%10d%10d%30s\n", user.id, user.username, user.password, user.amount, user.age,
             user.location);
     fclose(fptr);
 }
@@ -94,8 +95,7 @@ struct User *readFile() {
         exit(1);
     }
 
-    while (fscanf(fptr, "%d%s%s%d%d%s", &user.id, &user.username, &user.password, &user.amount, &user.age,
-                  &user.location) != EOF) {
+    while (fscanf(fptr, "%d%s%s%d%d%s", &user.id, &user.username, &user.password, &user.amount, &user.age,&user.location) != EOF) {
         users[userDataSize] = user;
         userDataSize++;
     }
@@ -109,11 +109,11 @@ struct User findData() {
     char toFind[100];
     printf("Enter username to find : ");
     scanf("%s", &toFind);
+    printf("\n");
     if (userDataSize > 0) {
         for (int i = 0; i < userDataSize; i++) {
             struct User user = users[i];
             if (strcmp(user.username, toFind) == 0) {
-                printf("User Data Found at line number %d\n", i + 1);
                 return user;
             }
         }
@@ -128,11 +128,15 @@ struct User findData() {
 
 void updateData() {
     FILE *fptr;
+    FILE  *tmpFptr;
     fptr = fopen("userData.txt", "r+");
+    tmpFptr = fopen("tempUserData.txt", "w");
     int choose = 0;
     struct User user = findData();
+    struct User tmpUser;
     showData(user);
 
+    printf("\n");
     printf("Please choose to update data :\n");
     printf("1. Id\n");
     printf("2. User Name\n");
@@ -142,47 +146,50 @@ void updateData() {
     printf("6. Location\n");
     scanf("%d", &choose);
 
-    switch (choose) {
-        case 1:
-            printf("Please enter new id to update : ");
-            scanf("%d", &user.id);
-            fprintf(fptr, "%d%30s%30s\t%d\t%d%30s\n", user.id, user.username, user.password, user.amount, user.age,user.location);
-            fclose(fptr);
-            break;
-        case 2:
-            printf("Please enter new user name to update : ");
-            scanf("%s", &user.username);
-            fprintf(fptr, "%d%30s%30s\t%d\t%d%30s\n", user.id, user.username, user.password, user.amount, user.age,user.location);
-            fclose(fptr);
-            break;
-        case 3:
-            printf("Please enter new password to update : ");
-            scanf("%s", &user.password);
-            fprintf(fptr, "%d%30s%30s\t%d\t%d%30s\n", user.id, user.username, user.password, user.amount, user.age,user.location);
-            fclose(fptr);
-            break;
-        case 4:
-            printf("Please enter new amount to update : ");
-            scanf("%d", &user.amount);
-            fprintf(fptr, "%d%30s%30s\t%d\t%d%30s\n", user.id, user.username, user.password, user.amount, user.age,user.location);
-            fclose(fptr);
-            break;
-        case 5:
-            printf("Please enter new age to update : ");
-            scanf("%d", &user.age);
-            fprintf(fptr, "%d%30s%30s\t%d\t%d%30s\n", user.id, user.username, user.password, user.amount, user.age,user.location);
-            fclose(fptr);
-            break;
-        case 6:
-            printf("Please enter new location to update : ");
-            scanf("%s", &user.location);
-            fprintf(fptr, "%d%30s%30s\t%d\t%d%30s\n", user.id, user.username, user.password, user.amount, user.age,user.location);
-            fclose(fptr);
-            break;
-        default:
-            printf("Invalid operation");
-            exit(1);
+    printf("\n");
+    while (fscanf(fptr, "%d%s%s%d%d%s", &tmpUser.id, &tmpUser.username, &tmpUser.password, &tmpUser.amount, &tmpUser.age,&tmpUser.location) != EOF) {
+        if (strcmp(user.username, tmpUser.username) == 0) {
+            switch (choose) {
+                case 1:
+                    printf("Please enter new id to update : ");
+                    scanf("%d", &user.id);
+                    break;
+                case 2:
+                    printf("Please enter new user name to update : ");
+                    scanf("%s", &user.username);
+                    break;
+                case 3:
+                    printf("Please enter new password to update : ");
+                    scanf("%s", &user.password);
+                    break;
+                case 4:
+                    printf("Please enter new amount to update : ");
+                    scanf("%d", &user.amount);
+                    break;
+                case 5:
+                    printf("Please enter new age to update : ");
+                    scanf("%d", &user.age);
+                    break;
+                case 6:
+                    printf("Please enter new location to update : ");
+                    scanf("%s", &user.location);
+                    break;
+                default:
+                    printf("Invalid operation");
+                    exit(1);
+            }
+            fprintf(tmpFptr, "%d%30s%30s%10d%10d%30s\n", user.id, user.username, user.password, user.amount,user.age, user.location);
+            printf("Updating data is successful.\n");
+            printf("Updated data : \n");
+            showData(user);
+        } else {
+            fprintf(tmpFptr, "%d%30s%30s%10d%10d%30s\n", tmpUser.id, tmpUser.username, tmpUser.password,tmpUser.amount, tmpUser.age, tmpUser.location);
+        }
     }
+    fclose(fptr);
+    fclose(tmpFptr);
+    remove("userData.txt");
+    rename("tempUserData.txt", "userData.txt");
 }
 
 
