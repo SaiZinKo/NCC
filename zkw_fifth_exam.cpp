@@ -108,7 +108,12 @@ void User::findAllUser() {
     while (!file.eof()) {
         file >> userInstance.id >> userInstance.userName >> userInstance.password >> userInstance.email
              >> userInstance.phone >> userInstance.age >> userInstance.location;
-        userInstance.showData();
+       
+        if(userInstance.id != 0){
+             userInstance.showData();
+        }
+        
+        userInstance.id = 0;
     }
 
     file.close();
