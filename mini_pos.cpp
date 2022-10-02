@@ -123,7 +123,10 @@ void User::findAllUser() {
 
     while (!file.eof()) {
         file >> userInstance.id >> userInstance.userName >> userInstance.password >> userInstance.confirmPassword;
-        userInstance.showData();
+        if (userInstance.id != 0) {
+            userInstance.showData();
+        }
+        userInstance.id = 0;
     }
 
     file.close();
@@ -386,7 +389,10 @@ void Book::findAllBook() {
     while (!file.eof()) {
         file >> bookInstance.id >> bookInstance.bookName >> bookInstance.authorName
              >> bookInstance.publisher >> bookInstance.price;
-        bookInstance.showData();
+        if (bookInstance.id != 0) {
+            bookInstance.showData();
+        }
+        bookInstance.id = 0;
     }
 
     file.close();
