@@ -204,7 +204,6 @@ void User::updateUserByUserId(int userId, User newUser) {
     fstream file, tmpFile;
     file.open("user_data.txt", ios::in);
     tmpFile.open("temp.txt", ios::app);
-    char endLine;
 
     if (!file.is_open() || !tmpFile.is_open()) {
         printf("File opening error");
@@ -228,7 +227,7 @@ void User::updateUserByUserId(int userId, User newUser) {
 
     while (!file.eof()) {
         file >> userInstance.id >> userInstance.userName >> userInstance.password >> userInstance.email
-             >> userInstance.phone >> userInstance.age >> userInstance.location >> endLine;
+             >> userInstance.phone >> userInstance.age >> userInstance.location;
 
         if (userId == userInstance.id) {
             tmpFile << newUser.id << ' ' << newUser.userName << ' ' << newUser.password << ' ' << newUser.email
@@ -251,7 +250,6 @@ void User::updateUserByUserName(std::string userName, User newUser) {
     fstream file, tmpFile;
     file.open("user_data.txt", ios::in);
     tmpFile.open("temp.txt", ios::app);
-    char endLine;
 
     if (!file.is_open() || !tmpFile.is_open()) {
         printf("File opening error");
@@ -274,7 +272,7 @@ void User::updateUserByUserName(std::string userName, User newUser) {
 
     while (!file.eof()) {
         file >> userInstance.id >> userInstance.userName >> userInstance.password >> userInstance.email
-             >> userInstance.phone >> userInstance.age >> userInstance.location >> endLine;
+             >> userInstance.phone >> userInstance.age >> userInstance.location;
 
         if (userName == userInstance.userName) {
             tmpFile << newUser.id << ' ' << newUser.userName << ' ' << newUser.password << ' ' << newUser.email
@@ -297,7 +295,6 @@ void User::deleteUserByUserId(int userId) {
     fstream file, tmpFile;
     file.open("user_data.txt", ios::in);
     tmpFile.open("temp.txt", ios::app);
-    char endLine;
 
     if (!file.is_open() || !tmpFile.is_open()) {
         printf("File opening error");
@@ -320,7 +317,7 @@ void User::deleteUserByUserId(int userId) {
 
     while (!file.eof()) {
         file >> userInstance.id >> userInstance.userName >> userInstance.password >> userInstance.email
-             >> userInstance.phone >> userInstance.age >> userInstance.location >> endLine;
+             >> userInstance.phone >> userInstance.age >> userInstance.location;
 
         if (userId == userInstance.id) {
             cout << "Deleted user : " << userInstance.id << endl;
@@ -342,7 +339,6 @@ void User::deleteUserByUserName(string userName) {
     fstream file, tmpFile;
     file.open("user_data.txt", ios::in);
     tmpFile.open("temp.txt", ios::app);
-    char endLine;
 
     if (!file.is_open() || !tmpFile.is_open()) {
         printf("File opening error");
@@ -365,7 +361,7 @@ void User::deleteUserByUserName(string userName) {
 
     while (!file.eof()) {
         file >> userInstance.id >> userInstance.userName >> userInstance.password >> userInstance.email
-             >> userInstance.phone >> userInstance.age >> userInstance.location >> endLine;
+             >> userInstance.phone >> userInstance.age >> userInstance.location;
 
         if (userName == userInstance.userName) {
             cout << "Deleted user : " << userInstance.userName << endl;
